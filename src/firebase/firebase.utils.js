@@ -12,16 +12,15 @@ const config = {
     appId: "1:505808754880:web:061ffbeff0fc20a9"
   };
 
-  export const createUserProfileDocument = (userAuth , aditionalData) => {
+  export const createUserProfileDocument = async (userAuth , aditionalData) => {
     if (!userAuth) return;
     const userRef = firestore.doc(`/users/${userAuth.uid}`)
 
-    const snapShot = userRef.get();
+    const snapShot = await userRef.get();
     if (!snapShot.exists) {
       const { displayName, email, photoURL } = userAuth;
 
       const createdAt = new Date();
-
       try {
         userRef.set({
           displayName, 
